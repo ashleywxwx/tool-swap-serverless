@@ -58,3 +58,9 @@ functions:
       - httpApi:
           path: /users
           method: get
+  getHealth:
+    handler: getHealth.getHealth
+    events:
+      - httpApi:
+          path: /health
+          method: get
