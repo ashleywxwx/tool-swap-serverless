@@ -1,0 +1,13 @@
+DependsOn: ServerlessVPCGA
+Type: AWS::RDS::DBInstance
+Properties:
+  DBInstanceClass: db.serverless
+  DBSubnetGroupName:
+    Ref: ServerlessSubnetGroup
+  Engine: aurora-mysql
+  EngineVersion: "8.0.mysql_aurora.3.02.0"
+  PubliclyAccessible: true
+  DBParameterGroupName:
+    Ref: AuroraRDSInstanceParameter
+  DBClusterIdentifier:
+    Ref: AuroraRDSCluster
