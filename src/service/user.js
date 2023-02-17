@@ -1,7 +1,7 @@
 'use-strict'
 
 const uuidv4 = require("uuid/v4");
-const {getClient, selectUser, insertUser} = require("./db");
+const {getClient, selectUser, insertUser, selectAllUsers} = require("./db");
 
 const client = getClient();
 
@@ -25,7 +25,14 @@ const getUser = async (uuid) => {
     return user;
 }
 
+const getUsers = async () => {
+    const users = await selectAllUsers(client);
+    await client.end();
+    return users;
+}
+
 module.exports = {
-    getUser,
     createUser,
+    getUser,
+    getUsers,
 }

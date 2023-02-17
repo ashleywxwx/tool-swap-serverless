@@ -1,11 +1,15 @@
 'use strict';
 
+const {getUsers} = require("../service/user");
+
 module.exports.getUsers = async (event) => {
 
-    console.log(JSON.stringify(event));
+    console.log('Fetching all users');
+
+    const users = await getUsers();
 
     return {
         statusCode: 200,
-        body: "Hello World",
+        body: JSON.stringify(users),
     };
 };

@@ -29,8 +29,25 @@ const selectUser = async (client, uuid) => {
     }
 }
 
+const selectAllUsers = async (client) => {
+    let results = await client.query(`SELECT * FROM users`);
+
+    console.log(`Results: ${results}`);
+    console.log(`Results[0]: ${results[0]}`);
+
+    const response = results.map(result => {
+        return {"uuid": result.uuid, "name": result.name}
+    })
+
+    console.log(`Response: ${JSON.stringify(response)}`)
+
+    return response;
+}
+
 const getHealth = async () => {
-    return await client.query("SELECT 1");
+    const results = await client.query(`SELECT 1`);
+    await client.end();
+    return results;
 }
 
 const init = async () => {
@@ -56,11 +73,13 @@ const init = async () => {
         PRIMARY KEY (id)
     );  
     `)
+    await client.end();
 }
 
 module.exports = {
     insertUser,
     selectUser,
+    selectAllUsers,
     getHealth,
     init,
     getClient
