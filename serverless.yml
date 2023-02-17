@@ -52,12 +52,24 @@ resources:
     AuroraRDSInstance: ${file(./resource/AuroraRDSInstance.yml)}
 
 functions:
+  getUser:
+    handler: src/routes/getUser.getUser
+    events:
+      - httpApi:
+          path: /users/user/{userId}
+          method: get
   getUsers:
     handler: src/routes/getUsers.getUsers
     events:
       - httpApi:
           path: /users
           method: get
+  postUser:
+    handler: src/routes/postUser.postUser
+    events:
+      - httpApi:
+          path: /users/user
+          method: post
   getHealth:
     handler: src/routes/getHealth.getHealth
     events:

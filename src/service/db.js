@@ -1,7 +1,8 @@
 'use strict'
+
 const Client = require("serverless-mysql");
 
-const dbClient = Client({
+const client = Client({
     config: {
         host: process.env.AURORA_HOST,
         database: process.env.DB_NAME,
@@ -10,8 +11,26 @@ const dbClient = Client({
     }
 })
 
+const getClient = () => {
+    return client;
+}
+
+const insertUser = async (client, user) => {
+    await client.query('INSERT INTO users (uuid, name) VALUES(?,?)', [user.uuid, user.name]);
+    return await selectUser(client, user.uuid);
+}
+
+const selectUser = async (client, uuid) => {
+    let results = await client.query(`SELECT id, uuid, name FROM users WHERE uuid = ?`, [uuid]);
+
+    return {
+        uuid: results[0].uuid,
+        name: results[0].name
+    }
+}
+
 const getHealth = async () => {
-    return await dbClient.query("SELECT 1");
+    return await client.query("SELECT 1");
 }
 
 const init = async () => {
@@ -40,6 +59,9 @@ const init = async () => {
 }
 
 module.exports = {
+    insertUser,
+    selectUser,
     getHealth,
-    init
+    init,
+    getClient
 }
