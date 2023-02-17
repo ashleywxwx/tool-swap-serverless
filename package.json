@@ -1,8 +1,7 @@
 {
   "name": "tool-swap-serverless",
   "version": "1.0.0",
-  "description": "",
-  "main": "handler.js",
+  "description": "Back end for the Tool Swap App",
   "scripts": {
     "func": "serverless deploy function --function graphql",
     "deploy": "serverless deploy",

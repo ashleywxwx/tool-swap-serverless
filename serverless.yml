@@ -53,14 +53,20 @@ resources:
 
 functions:
   getUsers:
-    handler: getUsers.getUsers
+    handler: src/routes/getUsers.getUsers
     events:
       - httpApi:
           path: /users
           method: get
   getHealth:
-    handler: getHealth.getHealth
+    handler: src/routes/getHealth.getHealth
     events:
       - httpApi:
           path: /health
           method: get
+  postInit:
+    handler: src/routes/postInit.postInit
+    events:
+      - httpApi:
+          path: /admin/init
+          method: post

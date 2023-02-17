@@ -1,20 +1,11 @@
 'use strict';
-const Client = require("serverless-mysql");
-
-const mysql = Client({
-    config: {
-        host: process.env.AURORA_HOST,
-        database: process.env.DB_NAME,
-        user: process.env.USERNAME,
-        password: process.env.PASSWORD
-    }
-})
+const {getHealth} = require("../service/db");
 
 module.exports.getHealth = async (event) => {
 
     console.log(JSON.stringify(event));
 
-    let results = await mysql.query("SELECT 1")
+    let results = await getHealth();
 
     if (results) {
         return {
@@ -22,6 +13,7 @@ module.exports.getHealth = async (event) => {
             body: "Healthy",
         };
     } else {
+        console.error("Was not able to connect to DB for health check.");
         return {
             statusCode: 500,
             body: "Internal Server Error"
